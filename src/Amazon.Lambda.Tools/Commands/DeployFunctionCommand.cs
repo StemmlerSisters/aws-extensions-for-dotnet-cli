@@ -79,7 +79,14 @@ namespace Amazon.Lambda.Tools.Commands
             
             LambdaDefinedCommandOptions.ARGUMENT_USE_CONTAINER_FOR_BUILD,
             LambdaDefinedCommandOptions.ARGUMENT_CONTAINER_IMAGE_FOR_BUILD,
-            LambdaDefinedCommandOptions.ARGUMENT_CODE_MOUNT_DIRECTORY
+            LambdaDefinedCommandOptions.ARGUMENT_CODE_MOUNT_DIRECTORY,
+
+            LambdaDefinedCommandOptions.ARGUMENT_LOG_FORMAT,
+            LambdaDefinedCommandOptions.ARGUMENT_LOG_APPLICATION_LEVEL,
+            LambdaDefinedCommandOptions.ARGUMENT_LOG_SYSTEM_LEVEL,
+            LambdaDefinedCommandOptions.ARGUMENT_LOG_GROUP,
+
+            LambdaDefinedCommandOptions.ARGUMENT_SNAP_START_APPLY_ON
         });
 
         public string Architecture { get; set; }
@@ -176,6 +183,9 @@ namespace Amazon.Lambda.Tools.Commands
                 this.ContainerImageForBuild = tuple.Item2.StringValue;
             if ((tuple = values.FindCommandOption(LambdaDefinedCommandOptions.ARGUMENT_CODE_MOUNT_DIRECTORY.Switch)) != null)
                 this.CodeMountDirectory = tuple.Item2.StringValue;
+
+            if ((tuple = values.FindCommandOption(LambdaDefinedCommandOptions.ARGUMENT_SNAP_START_APPLY_ON.Switch)) != null)
+                this.SnapStartApplyOn = tuple.Item2.StringValue;
         }
 
 
@@ -217,10 +227,11 @@ namespace Amazon.Lambda.Tools.Commands
                     // Release will be the default configuration if nothing set.
                     string configuration = this.GetStringValueOrDefault(this.Configuration, CommonDefinedCommandOptions.ARGUMENT_CONFIGURATION, false);
 
+                    string msbuildParameters = this.GetStringValueOrDefault(this.MSBuildParameters, CommonDefinedCommandOptions.ARGUMENT_MSBUILD_PARAMETERS, false);
                     var targetFramework = this.GetStringValueOrDefault(this.TargetFramework, CommonDefinedCommandOptions.ARGUMENT_FRAMEWORK, false);
                     if (string.IsNullOrEmpty(targetFramework))
                     {
-                        targetFramework = Utilities.LookupTargetFrameworkFromProjectFile(projectLocation);
+                        targetFramework = Utilities.LookupTargetFrameworkFromProjectFile(projectLocation, msbuildParameters);
 
                         // If we still don't know what the target framework is ask the user what targetframework to use.
                         // This is common when a project is using multi targeting.
@@ -229,7 +240,6 @@ namespace Amazon.Lambda.Tools.Commands
                             targetFramework = this.GetStringValueOrDefault(this.TargetFramework, CommonDefinedCommandOptions.ARGUMENT_FRAMEWORK, true);
                         }
                     }
-                    string msbuildParameters = this.GetStringValueOrDefault(this.MSBuildParameters, CommonDefinedCommandOptions.ARGUMENT_MSBUILD_PARAMETERS, false);
 
                     bool isNativeAot = Utilities.LookPublishAotFlag(projectLocation, this.MSBuildParameters);
 
@@ -319,6 +329,13 @@ namespace Amazon.Lambda.Tools.Commands
                         {
                             SubnetIds = this.GetStringValuesOrDefault(this.SubnetIds, LambdaDefinedCommandOptions.ARGUMENT_FUNCTION_SUBNETS, false)?.ToList(),
                             SecurityGroupIds = this.GetStringValuesOrDefault(this.SecurityGroupIds, LambdaDefinedCommandOptions.ARGUMENT_FUNCTION_SECURITY_GROUPS, false)?.ToList()
+                        },
+                        LoggingConfig = new LoggingConfig
+                        {
+                            LogFormat = this.GetStringValueOrDefault(this.LogFormat, LambdaDefinedCommandOptions.ARGUMENT_LOG_FORMAT, false),
+                            ApplicationLogLevel = this.GetStringValueOrDefault(this.LogApplicationLevel, LambdaDefinedCommandOptions.ARGUMENT_LOG_APPLICATION_LEVEL, false),
+                            SystemLogLevel = this.GetStringValueOrDefault(this.LogSystemLevel, LambdaDefinedCommandOptions.ARGUMENT_LOG_SYSTEM_LEVEL, false),
+                            LogGroup = this.GetStringValueOrDefault(this.LogGroup, LambdaDefinedCommandOptions.ARGUMENT_LOG_GROUP, false),
                         }
                     };
 
@@ -412,6 +429,11 @@ namespace Amazon.Lambda.Tools.Commands
                         createRequest.TracingConfig = new TracingConfig { Mode = tracingMode };
                     }
 
+                    var snapStartApplyOn = this.GetStringValueOrDefault(this.SnapStartApplyOn, LambdaDefinedCommandOptions.ARGUMENT_SNAP_START_APPLY_ON, false);
+                    if (!string.IsNullOrEmpty(snapStartApplyOn))
+                    {
+                        createRequest.SnapStart = new SnapStart {ApplyOn = Amazon.Lambda.SnapStartApplyOn.FindValue(snapStartApplyOn)};
+                    }
 
                     try
                     {
@@ -622,6 +644,14 @@ namespace Amazon.Lambda.Tools.Commands
             data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_USE_CONTAINER_FOR_BUILD.ConfigFileKey, this.GetBoolValueOrDefault(this.UseContainerForBuild, LambdaDefinedCommandOptions.ARGUMENT_USE_CONTAINER_FOR_BUILD, false));
             data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_CONTAINER_IMAGE_FOR_BUILD.ConfigFileKey, this.GetStringValueOrDefault(this.ContainerImageForBuild, LambdaDefinedCommandOptions.ARGUMENT_CONTAINER_IMAGE_FOR_BUILD, false));
             data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_CODE_MOUNT_DIRECTORY.ConfigFileKey, this.GetStringValueOrDefault(this.CodeMountDirectory, LambdaDefinedCommandOptions.ARGUMENT_CODE_MOUNT_DIRECTORY, false));
+
+            data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_LOG_FORMAT.ConfigFileKey, this.GetStringValueOrDefault(this.LogFormat, LambdaDefinedCommandOptions.ARGUMENT_LOG_FORMAT, false));
+            data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_LOG_APPLICATION_LEVEL.ConfigFileKey, this.GetStringValueOrDefault(this.LogApplicationLevel, LambdaDefinedCommandOptions.ARGUMENT_LOG_APPLICATION_LEVEL, false));
+            data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_LOG_SYSTEM_LEVEL.ConfigFileKey, this.GetStringValueOrDefault(this.LogSystemLevel, LambdaDefinedCommandOptions.ARGUMENT_LOG_SYSTEM_LEVEL, false));
+            data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_LOG_GROUP.ConfigFileKey, this.GetStringValueOrDefault(this.LogGroup, LambdaDefinedCommandOptions.ARGUMENT_LOG_GROUP, false));
+
+            data.SetIfNotNull(LambdaDefinedCommandOptions.ARGUMENT_SNAP_START_APPLY_ON.ConfigFileKey, this.GetStringValueOrDefault(this.SnapStartApplyOn, LambdaDefinedCommandOptions.ARGUMENT_SNAP_START_APPLY_ON, false));
+
         }
     }
 }

@@ -116,6 +116,12 @@ namespace Amazon.Lambda.Tools.Commands
                 this.Logger.WriteLine("Dead Letter Target:".PadRight(PAD_SIZE) + response.DeadLetterConfig.TargetArn);
             }
 
+            if (!string.IsNullOrEmpty(response.SnapStart?.ApplyOn?.Value))
+            {
+                this.Logger.WriteLine("SnapStart");
+                this.Logger.WriteLine("   Apply On:".PadRight(PAD_SIZE) + response.SnapStart.ApplyOn.Value);
+                this.Logger.WriteLine("   Optimization Status:".PadRight(PAD_SIZE) + response.SnapStart?.OptimizationStatus?.Value ?? "");
+            }
 
             if (response.Environment?.Variables?.Count > 0)
             {
@@ -144,6 +150,15 @@ namespace Amazon.Lambda.Tools.Commands
                 this.Logger.WriteLine("Function Url Config");
                 this.Logger.WriteLine("   Url: ".PadRight(PAD_SIZE) + urlConfig.FunctionUrl);
                 this.Logger.WriteLine("   Auth: ".PadRight(PAD_SIZE) + urlConfig.AuthType.Value);
+            }
+
+            if (response.LoggingConfig != null)
+            {
+                this.Logger.WriteLine("Logging Config");
+                this.Logger.WriteLine("   Format: ".PadRight(PAD_SIZE) + response.LoggingConfig.LogFormat);
+                this.Logger.WriteLine("   Application Log Level: ".PadRight(PAD_SIZE) + response.LoggingConfig.ApplicationLogLevel);
+                this.Logger.WriteLine("   System Log Level: ".PadRight(PAD_SIZE) + response.LoggingConfig.SystemLogLevel);
+                this.Logger.WriteLine("   Log Group: ".PadRight(PAD_SIZE) + response.LoggingConfig.LogGroup);
             }
 
             return true;

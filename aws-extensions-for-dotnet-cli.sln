@@ -25,8 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.ECS.Tools.Test", "te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90827CB6-7488-4B53-904B-F045BCC754F3}"
 	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
 		README.md = README.md
-		RELEASE.CHANGELOG.md = RELEASE.CHANGELOG.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.Lambda.Tools", "src\Amazon.Lambda.Tools\Amazon.Lambda.Tools.csproj", "{26CEBD54-FC5B-4437-A009-6643EE849413}"
@@ -63,7 +63,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.Lambda.Tools.Integ.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHttpFunction", "testapps\TestHttpFunction\TestHttpFunction.csproj", "{AD31D053-97C5-4262-B187-EC42BFD51A9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNativeAotNet8WebApp", "testapps\TestNativeAotNet8WebApp\TestNativeAotNet8WebApp.csproj", "{69FFA03C-D29F-40E0-9E7F-572D5E10AF77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestNativeAotNet8WebApp", "testapps\TestNativeAotNet8WebApp\TestNativeAotNet8WebApp.csproj", "{69FFA03C-D29F-40E0-9E7F-572D5E10AF77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestIntegerFunction", "testapps\TestIntegerFunction\TestIntegerFunction.csproj", "{D7F1DFA4-066B-469C-B04C-DF032CF152C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFunctionBuildProps", "testapps\TestFunctionBuildProps\TestFunctionBuildProps\TestFunctionBuildProps.csproj", "{AFA71B8E-F0AA-4704-8C4E-C11130F82B13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +167,14 @@ Global
 		{69FFA03C-D29F-40E0-9E7F-572D5E10AF77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69FFA03C-D29F-40E0-9E7F-572D5E10AF77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69FFA03C-D29F-40E0-9E7F-572D5E10AF77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7F1DFA4-066B-469C-B04C-DF032CF152C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7F1DFA4-066B-469C-B04C-DF032CF152C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7F1DFA4-066B-469C-B04C-DF032CF152C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7F1DFA4-066B-469C-B04C-DF032CF152C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA71B8E-F0AA-4704-8C4E-C11130F82B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA71B8E-F0AA-4704-8C4E-C11130F82B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA71B8E-F0AA-4704-8C4E-C11130F82B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA71B8E-F0AA-4704-8C4E-C11130F82B13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +205,8 @@ Global
 		{7B2AE176-8AB5-4050-8E22-A2A80E88BB92} = {BB0A8314-3127-4159-8B6A-64F97FEF9474}
 		{AD31D053-97C5-4262-B187-EC42BFD51A9F} = {BB3CF729-8213-4DDD-85AE-A5E7754F3944}
 		{69FFA03C-D29F-40E0-9E7F-572D5E10AF77} = {BB3CF729-8213-4DDD-85AE-A5E7754F3944}
+		{D7F1DFA4-066B-469C-B04C-DF032CF152C1} = {BB3CF729-8213-4DDD-85AE-A5E7754F3944}
+		{AFA71B8E-F0AA-4704-8C4E-C11130F82B13} = {BB3CF729-8213-4DDD-85AE-A5E7754F3944}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DBFC70D6-49A2-40A1-AB08-5D9504AB7112}
