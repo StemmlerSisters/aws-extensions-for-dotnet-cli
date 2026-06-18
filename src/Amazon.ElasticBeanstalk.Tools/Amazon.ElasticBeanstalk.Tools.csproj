@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.ElasticBeanstalk" Version="4.0.1.1" />
+    <PackageReference Include="AWSSDK.ElasticBeanstalk" Version="4.0.2.5" />
     <PackageReference Include="AWSSDK.IdentityManagement" Version="4.0.3.2" />
     <PackageReference Include="AWSSDK.S3" Version="4.0.6.13" />
   </ItemGroup>
